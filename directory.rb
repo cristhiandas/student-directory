@@ -21,8 +21,8 @@ class String
 end
 #We create a head-printer method
 def print_head
-  puts "The Students of The Villian Academy"
-  puts "----------------------------"
+  puts "The Students of The Villian Academy".center(80)
+  puts "----------------------------".center(80)
 end
 
 #Now an students-printer method with index and the initial
@@ -49,15 +49,22 @@ end
 # end
 
 #We print the studentes name, hobbies, country_of_birth, etc
+# def print_students(names)
+#   names.each do |name|
+#      puts "#{name[:name]} \nHeight: #{name[:height]}\nHobbies: #{name[:hobbies]}\nCountry of Birth: #{name[:country_of_birth]}\nOther Info: #{name[:relevant_info]} \n(#{name[:cohort]} cohort)"
+#    end
+#  end
+
+#We print the studentes name
 def print_students(names)
   names.each do |name|
-     puts "#{name[:name]} \nHeight: #{name[:height]}\nHobbies: #{name[:hobbies]}\nCountry of Birth: #{name[:country_of_birth]}\nOther Info: #{name[:relevant_info]} \n(#{name[:cohort]} cohort)"
+     puts "#{name[:name]} (#{name[:cohort]} cohort)".center(80)
    end
  end
 
 #Now the print the sum of the students method
 def print_footer(names)
-    puts "Overall, we have #{names.count} great students \n"
+    puts "Overall, we have #{names.count} great students \n".center(80)
 end
 
 def input_students
@@ -73,17 +80,20 @@ def input_students
   #We need to repeat the code while the name isn't empty
   while !name.empty? do
     #Now we add the Info
-    puts "please, write the student's hobbies, if doesn't have any write N/A"
-    hobbies = gets.chomp
-    puts "please, write the student's country of birth"
-    country_of_birth = gets.chomp
-    puts "please, write the student's height"
-    height = gets.chomp
-    puts "please, write any other relevant info, if doesn't have any write N/A"
-    relevant_info = gets.chomp
+    # puts "please, write the student's hobbies, if doesn't have any write N/A"
+    # hobbies = gets.chomp
+    # puts "please, write the student's country of birth"
+    # country_of_birth = gets.chomp
+    # puts "please, write the student's height"
+    # height = gets.chomp
+    # puts "please, write any other relevant info, if doesn't have any write N/A"
+    # relevant_info = gets.chomp
+
     #We add the students to the array
-    students << {name: name,hobbies: hobbies, country_of_birth: country_of_birth, height: height, relevant_info: relevant_info, cohort: :november}
+    # students << {name: name,hobbies: hobbies, country_of_birth: country_of_birth, height: height, relevant_info: relevant_info, cohort: :november}
+      students << {name: name, cohort: :november}
     puts "Now we have #{students.count} students"
+
     #and we ask for names again
     puts "Now you can add another name or return to finish the program"
     name = gets.chomp
