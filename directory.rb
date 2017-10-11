@@ -1,17 +1,17 @@
 #we have the students in an array
 students = [
-"Dr. Hannibal Lecter",
-"Darth Vader",
-"Nurse Ratched",
-"Michael Corleone",
-"Alex DeLarge",
-"The Wicked Witch of the West",
-"Terminator",
-"Freddy Krueger",
-"The Joker",
-"Joffrey Baratheon",
-"Norman Bates",
-"The one that putted HL and The Joker as villians, they are true heroes"]
+["Dr. Hannibal Lecter", :november],
+["Darth Vader", :november],
+["Nurse Ratched", :november],
+["Michael Corleone", :november],
+["Alex DeLarge", :november],
+["The Wicked Witch of the West", :november],
+["Terminator", :november],
+["Freddy Krueger", :november],
+["The Joker", :november],
+["Joffrey Baratheon", :november],
+["Norman Bates", :november],
+["The one that putted HL and The Joker as villians, they are true heroes", :november]]
 #We create a head-printer method
 
 def print_head
@@ -22,7 +22,7 @@ end
 #Now an students-printer method
 def print_students(names)
   names.each do |name|
-    puts name
+    puts "#{name[0]} (#{name[1]} cohort)"
   end
 end
 
