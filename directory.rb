@@ -31,9 +31,16 @@ end
 #   end
 # end
 
+# def print_students(names)
+#   names.each do |name|
+#     puts "#{name[:name]} (#{name[:cohort]} cohort)" if name[:name].length < 12
+#   end
+# end
 def print_students(names)
-  names.each do |name|
-    puts "#{name[:name]} (#{name[:cohort]} cohort)" if name[:name].length < 12
+  index = 0
+  while index < names.length
+    puts names[index][:name]
+    index += 1
   end
 end
 
