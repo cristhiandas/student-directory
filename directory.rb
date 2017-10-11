@@ -13,6 +13,11 @@
 # {name: "Norman Bates",cohort :november},
 # {name: "The one that putted HL and The Joker as villians, they are true heroes",cohort :november}]
 #We create a head-printer method
+class String
+  def initial
+    self[0,1]
+  end
+end
 
 def print_head
   puts "The Students of The Villian Academy"
@@ -21,8 +26,8 @@ end
 
 #Now an students-printer method
 def print_students(names)
-  names.each do |name|
-    puts "#{name[:name]} (#{name[:cohort]} cohort)"
+  names.each_with_index do |name, index|
+    puts "#{index+1}. #{name[:name]} (#{name[:cohort]} cohort)" if name[:name].initial.downcase == "m"
   end
 end
 
