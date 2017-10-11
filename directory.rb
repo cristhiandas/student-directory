@@ -24,10 +24,16 @@ def print_head
   puts "----------------------------"
 end
 
-#Now an students-printer method
+#Now an students-printer method with index and the initial
+# def print_students(names)
+#   names.each_with_index do |name, index|
+#     puts "#{index+1}. #{name[:name]} (#{name[:cohort]} cohort)" if name[:name].initial.downcase == "m"
+#   end
+# end
+
 def print_students(names)
-  names.each_with_index do |name, index|
-    puts "#{index+1}. #{name[:name]} (#{name[:cohort]} cohort)" if name[:name].initial.downcase == "m"
+  names.each do |name|
+    puts "#{name[:name]} (#{name[:cohort]} cohort)" if name[:name].length < 12
   end
 end
 
