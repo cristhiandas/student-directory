@@ -13,11 +13,12 @@
   :December,
   :NotSpecified
   ]
+@margins = 80
 #We create a head-printer method
 def print_head
   if @student =! nil
-    puts "The Students of The Villian Academy".center(80)
-    puts "----------------------------".center(80)
+    puts "The Students of The Villian Academy".center(@margins)
+    puts "----------------------------".center(@margins)
   else
     puts "There are no students in the Villian Academy"
   end
@@ -26,9 +27,9 @@ end
 #Now the print the sum of the students method
 def print_footer
   if @students.count ==1
-    puts "Overall, we have #{@students.count} great student \n".center(80)
+    puts "Overall, we have #{@students.count} great student \n".center(@margins)
   else
-    puts "Overall, we have #{@students.count} great students \n".center(80)
+    puts "Overall, we have #{@students.count} great students \n".center(@margins)
   end
 end
 
@@ -38,7 +39,7 @@ def input_students
   puts "Please dear user, write the name of a student and press return"
   puts "if you want to go back to the menu, press return"
   #We get the first name
-  name = gets.chomp
+  name = gets.chomp.capitalize
 
   #if no names, it'll return nill
   return nil if name.empty?
@@ -56,7 +57,7 @@ def input_students
 
     #and we ask for names again
     puts "Now you can add another name or press return to go back to the menu"
-    name = gets.chomp
+    name = gets.chomp.capitalize
 
   end
   #return the array of students
@@ -64,15 +65,40 @@ def input_students
 
 end
 
-
+#This directory will display the students names with the specified letters
+def sort_by_letter
+  #This counter is used to now how many students begins with the letters
+  students_count = 0
+  puts "Please, type the student's name or initial you want to find".center(@margins)
+  letters = gets.chomp.capitalize
+  if letters.nil?
+    puts "   It seems you didn't provide any letters to search by".center(@margins)
+  else
+    #we print the head inside the method, this way it will print it after the previous puts
+    #and not before them
+    print_head
+    puts "These are the students with the letters you asked for".center(@margins)
+    #An iteration to print each student that begins with the letters
+    @students.each do |student|
+      if student[:name].start_with?(letters)
+        puts "#{student[:name]} #{student[:cohort]} cohort".center(@margins)
+        #Add one to the counter
+        students_count += 1
+      end
+    end
+    #Print the number of students whose names begins with the specified letters
+    puts "There is #{students_count} student whose name begins with #{letters}".center(@margins) if students_count == 1
+    puts "There are #{students_count} students whoses names begins with #{letters}".center(@margins) if students_count != 1
+  end
+end
 #This method will ask for a cohort to select, if empty will select november by default, if it have a typo
 #It will show a wrong input message
 
 
 def input_cohort
-  puts "Choose the cohort, please write ONLY the number of the cohort you want".center(60)
-  puts "1 January       2 February        3 March         4 April            5 May         6 June".center(60)
-  puts "7 July          8 August        9 September      10 October      11 November   12 December".center(60)
+  puts "Choose the cohort, please write ONLY the number of the cohort you want".center(@margins)
+  puts "1 January       2 February        3 March         4 April            5 May         6 June".center(@margins)
+  puts "7 July          8 August        9 September      10 October      11 November   12 December".center(@margins)
 #We get the number of the cohort
   cohort = gets.chomp
   puts "You wrote #{cohort}, are you sure that's the cohort you want? Y/N"
@@ -116,24 +142,24 @@ print_head
     #for each student if will compare the cohort and the month, if true it prints the student
       @students.each do |student|
         if student[:cohort] == month && first == false
-          puts "#{student[:name]}".center(80)
+          puts "#{student[:name]}".center(@margins)
           students_of_the_cohort += 1
         elsif student[:cohort] == month && first == true
           first = false
-          puts "The students of the #{month} cohort are:".center(80)
-          puts "#{student[:name]}".center(80)
+          puts "The students of the #{month} cohort are:".center(@margins)
+          puts "#{student[:name]}".center(@margins)
           students_of_the_cohort += 1
         end
       end
-      puts "there are #{students_of_the_cohort} students, in this cohort".center(80) if students_of_the_cohort > 1
-      puts "there is #{students_of_the_cohort} student, in this cohort".center(80) if students_of_the_cohort == 1
+      puts "there are #{students_of_the_cohort} students, in this cohort".center(@margins) if students_of_the_cohort > 1
+      puts "there is #{students_of_the_cohort} student, in this cohort".center(@margins) if students_of_the_cohort == 1
   end
 end
 
 #This method allows the user to choose which cohort is displayed
 def cohort_display
-  puts "Do you want to select which cohort is displayed? Y/N".center(60)
-  puts "If you don't, all of them will be displayed".center(60)
+  puts "Do you want to select which cohort is displayed? Y/N".center(@margins)
+  puts "If you don't, all of them will be displayed".center(@margins)
   option = gets.chomp
   #if yes, select a month
   if option.upcase == "Y"
@@ -154,6 +180,10 @@ def show_students
   print_footer
 end
 
+def show_students_by_letters
+  sort_by_letter
+  print_footer
+end
 #This method save the students names and cohorts in a file
 def save_students
   # open the file for writing
@@ -173,7 +203,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the students in a file"
+  puts "3. Search for specific students"
+  puts "4. Save the students in a file"
   puts "9. Exit"
 end
 
@@ -188,6 +219,8 @@ def process(selection)
       show_students
     #if selected 3 save all the students in a file
     when "3"
+      show_students_by_letters
+    when "4"
       save_students
     #if selected 9 exits the program
     when "9"
