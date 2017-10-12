@@ -12,12 +12,11 @@ end
 
 
 #We print the studentes name
-def print_students(names)
-  sort_cohort(names)
-  names.each do |name|
-     puts "#{name[:name]} (#{name[:cohort]} cohort)".center(80)
-   end
- end
+# def print_students(names)
+#   names.each do |name|
+#      puts "#{name[:name]} (#{name[:cohort]} cohort)".center(80)
+#    end
+#  end
 
 #Now the print the sum of the students method
 def print_footer(names)
@@ -28,13 +27,24 @@ def print_footer(names)
   end
 end
 
+#This method sort the array of students based on the cohort
+def sort_cohort(choosen_cohort, names)
+  # sorted_cohorts = []
+  choosen_cohort.map do |month|
+    selector = 0
+      names.each do |student|
+        if student[:cohort] == month && selector == 1
+          # sorted_cohorts << student
+          puts student[:name]
+        elsif student[:cohort] == month && selector == 0
+          selector = 1
+          puts "The students of the #{month} cohort are:"
+          puts student[:name]
+        end
+      end
 
-def sort_cohort(names)
-  names.map do |hash|
-    hash.each do |value1, value2|
-
-    end
   end
+  # print_students(sorted_cohorts)
 end
 
 
@@ -43,21 +53,7 @@ end
 #It will show a wrong input message
 
 
-def input_cohort
-#first we need an array for the cohorts, we want them to be symbols
-choosen_cohort = [:January,
-:February,
-:March,
-:April,
-:May,
-:June,
-:July,
-:August,
-:September,
-:October,
-:November,
-:December
-]
+def input_cohort(choosen_cohort)
   puts "Now Choose the cohort, please write ONLY the number of the cohort you want".center(60)
   puts "1 January       2 February        3 March         4 April            5 May         6 June".center(60)
   puts "7 July          8 August        9 September      10 October      11 November   12 December".center(60)
@@ -75,19 +71,19 @@ choosen_cohort = [:January,
     else
 #If the input is not in the list we have the wrong input message
       puts "Wrong input, try again"
-      input_cohort
+      input_cohort(choosen_cohort)
     end
   elsif choice.upcase == "N"
-    input_cohort
+    input_cohort(choosen_cohort)
   else
     puts "wrong input try again"
-    input_cohort
+    input_cohort(choosen_cohort)
   end
 end
 
 
 
-def input_students
+def input_students(choosen_cohort)
   #first we ask for the names
   puts "Please dear user, write the name of a student and press return"
 
@@ -100,7 +96,7 @@ def input_students
   #We need to repeat the code while the name isn't empty
   while !name.empty? do
 
-    students << {name: name, cohort: input_cohort}
+    students << {name: name, cohort: input_cohort(choosen_cohort)}
 
     if students.count != 1
       puts "Now we have #{students.count} students"
@@ -118,9 +114,24 @@ students
 end
 
 def program
-students = input_students
+  #first we need an array for the cohorts, we want them to be symbols
+  choosen_cohort = [:January,
+  :February,
+  :March,
+  :April,
+  :May,
+  :June,
+  :July,
+  :August,
+  :September,
+  :October,
+  :November,
+  :December
+  ]
+
+students = input_students(choosen_cohort)
 print_head
-print_students(students)
+sort_cohort(choosen_cohort, students)
 print_footer(students)
 end
 
