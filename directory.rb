@@ -17,13 +17,13 @@ end
 def input_students(choosen_cohort)
   #first we ask for the names
   puts "Please dear user, write the name of a student and press return"
-  puts "if you want to exit the program, press return"
+  puts "if you want to go back to the menu, press return"
 
   #We need an empty array for the students
   students = []
 
   #We get the first name
-  name = gets.chop
+  name = gets.chomp
 
   #if no names, it'll return nill
   return nil if name.empty?
@@ -40,8 +40,8 @@ def input_students(choosen_cohort)
     end
 
     #and we ask for names again
-    puts "Now you can add another name or return to finish the program"
-    name = gets.chop
+    puts "Now you can add another name or press return to go back to the menu"
+    name = gets.chomp
 
   end
   #return the array of students
@@ -62,20 +62,23 @@ def input_cohort(choosen_cohort)
   cohort = gets.chomp
   puts "You wrote #{cohort}, are you sure that's the cohort you want? Y/N"
   choice = gets.chomp
-#If empty, returns the default cohort November
+#Now the user select an option
   if choice.upcase == "Y"
+    #If empty, returns the default cohort November
     if cohort.empty?
-      choosen_cohort[10]
-#If the number is selected correctly it will return the cohort
+      return choosen_cohort[10]
+      #If the number is selected correctly it will return the cohort
     elsif 0 < cohort.to_i && cohort.to_i < 13
       return choosen_cohort[cohort.to_i-1]
     else
-#If the input is not in the list we have the wrong input message
+      #If the input is not in the list we have the wrong input message
       puts "Wrong input, try again"
       input_cohort(choosen_cohort)
     end
+  #if the user selects no, it goes back to the previous step
   elsif choice.upcase == "N"
     input_cohort(choosen_cohort)
+  #if wrong input, it goes back to the previous step
   else
     puts "wrong input try again"
     input_cohort(choosen_cohort)
@@ -89,15 +92,14 @@ def sort_cohort(choosen_cohort, names)
 #We now print the header here
 print_head
 
-  # sorted_cohorts = []
   #It take the arrays of the months that are already sorted
   choosen_cohort.map do |month|
     #this selector will tell us if it is the first name on the list, in that case it will print the "header"
     #of the list
     first = true
+    #for each student if will compare the cohort and the month, if true it prints the student
       names.each do |student|
         if student[:cohort] == month && first == false
-          # sorted_cohorts << student
           puts "#{student[:name]}".center(80)
         elsif student[:cohort] == month && first == true
           first = false
@@ -107,26 +109,27 @@ print_head
       end
 
   end
-  # print_students(sorted_cohorts)
 end
 
-
+#This method allows the user to choose which cohort is displayed
 def cohort_display(choosen_cohort)
   puts "Do you want to select which cohort is displayed? Y/N".center(60)
   puts "If you don't, all of them will be displayed".center(60)
   option = gets.chomp
+  #if yes, select a month
   if option.upcase == "Y"
     return [input_cohort(choosen_cohort)]
+  #if no, return the sorted array
   elsif option.upcase == "N"
     return choosen_cohort
+  #else, goes to the previous step
   else
     puts "Wrong argument, try again"
     cohort_display(choosen_cohort)
   end
 end
 
-#This is the body of the program with the needed array
-def program
+def interactive_menu
   #first we need an array for the cohorts, we want them to be symbols
     choosen_cohort = [:January,
     :February,
@@ -141,14 +144,27 @@ def program
     :November,
     :December
     ]
+    students = []
+  loop do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
 
-  students = input_students(choosen_cohort)
-  if students == nil
-    puts "You didn't wrote any names, bye"
-    return 0
+    selection = gets.chomp
+
+    case selection
+    when "1"
+      students = input_students(choosen_cohort)
+    when "2"
+      sort_cohort(cohort_display(choosen_cohort), students)
+      print_footer(students)
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again"
+    end
   end
-  sort_cohort(cohort_display(choosen_cohort), students)
-  print_footer(students)
+
 end
 
-program
+interactive_menu
