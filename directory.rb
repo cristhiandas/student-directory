@@ -146,17 +146,36 @@ def cohort_display
     cohort_display
   end
 end
-#Method that prints the main menu
-def print_menu
-  puts "1. Input the students"
-  puts "2. Show the students"
-  puts "9. Exit"
-end
+
 #This method prints the students
 def show_students
   sort_cohort(cohort_display)
   print_footer
 end
+
+#This method save the students names and cohorts in a file
+def save_students
+  # open the file for writing
+  file = File.open("students.csv", "w")
+  # iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  #closing the file
+  file.close
+  puts "Yor students have been saved (You are a hero)"
+end
+
+#Method that prints the main menu
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "3. Save the students in a file"
+  puts "9. Exit"
+end
+
 #This is the selection method, here we find our options
 def process(selection)
   case selection
@@ -166,7 +185,10 @@ def process(selection)
     #if selected 2 prints the list of the students
     when "2"
       show_students
-    #if selected 3 exits the program
+    #if selected 3 save all the students in a file
+    when "3"
+      save_students
+    #if selected 9 exits the program
     when "9"
       exit
     else
