@@ -17,12 +17,16 @@ end
 def input_students(choosen_cohort)
   #first we ask for the names
   puts "Please dear user, write the name of a student and press return"
+  puts "if you want to exit the program, press return"
 
   #We need an empty array for the students
   students = []
 
   #We get the first name
   name = gets.chomp
+
+  #if no names, it'll return nill
+  return nil if name.empty?
 
   #We need to repeat the code while the name isn't empty
   while !name.empty? do
@@ -138,6 +142,10 @@ def program
     ]
 
   students = input_students(choosen_cohort)
+  if students == nil
+    puts "You didn't wrote any names, bye"
+    return 0
+  end
   sort_cohort(cohort_display(choosen_cohort), students)
   print_footer(students)
 end
