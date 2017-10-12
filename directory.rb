@@ -23,7 +23,7 @@ def input_students(choosen_cohort)
   students = []
 
   #We get the first name
-  name = gets.chomp
+  name = gets.chop
 
   #if no names, it'll return nill
   return nil if name.empty?
@@ -41,7 +41,8 @@ def input_students(choosen_cohort)
 
     #and we ask for names again
     puts "Now you can add another name or return to finish the program"
-    name = gets.chomp
+    name = gets.chop
+
   end
   #return the array of students
 students
