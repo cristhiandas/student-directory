@@ -10,7 +10,8 @@
   :September,
   :October,
   :November,
-  :December
+  :December,
+  :NotSpecified
   ]
 #We create a head-printer method
 def print_head
@@ -80,7 +81,7 @@ def input_cohort
   if choice.upcase == "Y"
     #If empty, returns the default cohort November
     if cohort.empty?
-      return @choosen_cohort[10]
+      return :NotSpecified
       #If the number is selected correctly it will return the cohort
     elsif 0 < cohort.to_i && cohort.to_i < 13
       return @choosen_cohort[cohort.to_i-1]
