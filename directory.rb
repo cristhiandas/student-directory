@@ -16,10 +16,10 @@
 @margins = 80
 #this method will ask for the filename
 def ask_for_file
-  puts "Hi user, please insert a filename or press return to load the one by default"
+  puts "Hi user, please insert a filename or press return to use default settings"
   puts "Don't forget to put the .txt, .csv, etc on you filename"
   filename = STDIN.gets.chomp
-
+#returns the default file if no name is given
   return "students.csv" if filename.empty?
 
   filename
