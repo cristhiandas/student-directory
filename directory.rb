@@ -14,7 +14,16 @@
   :NotSpecified
   ]
 @margins = 80
+#this method will ask for the filename
+def ask_for_file
+  puts "Hi user, please insert a filename or press return to load the one by default"
+  puts "Don't forget to put the .txt, .csv, etc on you filename"
+  filename = STDIN.gets.chomp
 
+  return "students.csv" if filename.empty?
+
+  filename
+end
 #We create a head-printer method
 def print_head
   if @student =! nil
@@ -44,7 +53,7 @@ def add_student(name, cohort)
     end
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
@@ -200,7 +209,7 @@ end
 #This method save the students names and cohorts in a file
 def save_students
   # open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(ask_for_file, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -251,10 +260,12 @@ end
 
 
 def try_load_students
+
   filename = ARGV.first # first argument from the command line
-  if filename.nil? # load the default file if not given
-    load_students
-  elsif File.exists?(filename) # if it exists
+  if filename.nil?
+    filename = ask_for_file
+  end
+  if File.exists?(filename) # if it exists
     load_students(filename)
      puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
