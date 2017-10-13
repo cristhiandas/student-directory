@@ -205,6 +205,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Search for specific students"
   puts "4. Save the students in a file"
+  puts "5. loads the students in the file"
   puts "9. Exit"
 end
 
@@ -217,11 +218,15 @@ def process(selection)
     #if selected 2 prints the list of the students
     when "2"
       show_students
-    #if selected 3 save all the students in a file
+    #if selected 3 prints the search for an specific student
     when "3"
       show_students_by_letters
+    #if selected 4 save all the students in a file
     when "4"
       save_students
+    #if 5 load the students that are already in the file
+    when "5"
+      load_students
     #if selected 9 exits the program
     when "9"
       exit
@@ -230,6 +235,15 @@ def process(selection)
   end
 end
 
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+  name, cohort = line.chomp.split(',')
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+  puts "You've loaded the file, awesome man!"
+end
 
 def interactive_menu
 
