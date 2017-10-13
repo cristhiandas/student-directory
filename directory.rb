@@ -14,6 +14,7 @@
   :NotSpecified
   ]
 @margins = 80
+
 #We create a head-printer method
 def print_head
   if @student =! nil
@@ -33,31 +34,43 @@ def print_footer
   end
 end
 
+# a method that add the students to the list
+def add_student(name, cohort)
+    @students << {name: name, cohort: cohort}
+    if @students.count != 1
+      puts "Now we have #{@students.count} students on the list"
+    else
+      puts "Now we have #{@students.count} student on the list"
+    end
+end
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
+  file.readlines.each do |line|
+    name, cohort = line.chomp.split(',')
+    add_student(name, cohort.to_sym)
+  end
+  file.close
+  puts "You've loaded the file, awesome man!"
+end
 
 def input_students
   #first we ask for the names
   puts "Please dear user, write the name of a student and press return"
   puts "if you want to go back to the menu, press return"
   #We get the first name
-  name = gets.chomp.capitalize
+  name = STDIN.gets.chomp.capitalize
 
   #if no names, it'll return nill
   return nil if name.empty?
 
   #We need to repeat the code while the name isn't empty
   while !name.empty? do
-
-    @students << {name: name, cohort: input_cohort}
-
-    if @students.count != 1
-      puts "Now we have #{@students.count} students"
-    else
-      puts "Now we have #{@students.count} student"
-    end
-
+    cohort = input_cohort
+    add_student(name.capitalize, cohort.to_sym)
     #and we ask for names again
     puts "Now you can add another name or press return to go back to the menu"
-    name = gets.chomp.capitalize
+    name = STDIN.gets.chomp.capitalize
 
   end
   #return the array of students
@@ -70,7 +83,7 @@ def sort_by_letter
   #This counter is used to now how many students begins with the letters
   students_count = 0
   puts "Please, type the student's name or initial you want to find".center(@margins)
-  letters = gets.chomp.capitalize
+  letters = STDIN.gets.chomp.capitalize
   if letters.nil?
     puts "   It seems you didn't provide any letters to search by".center(@margins)
   else
@@ -100,9 +113,9 @@ def input_cohort
   puts "1 January       2 February        3 March         4 April            5 May         6 June".center(@margins)
   puts "7 July          8 August        9 September      10 October      11 November   12 December".center(@margins)
 #We get the number of the cohort
-  cohort = gets.chomp
+  cohort = STDIN.gets.chomp
   puts "You wrote #{cohort}, are you sure that's the cohort you want? Y/N"
-  choice = gets.chomp
+  choice = STDIN.gets.chomp
 #Now the user select an option
   if choice.upcase == "Y"
     #If empty, returns the default cohort November
@@ -160,7 +173,7 @@ end
 def cohort_display
   puts "Do you want to select which cohort is displayed? Y/N".center(@margins)
   puts "If you don't, all of them will be displayed".center(@margins)
-  option = gets.chomp
+  option = STDIN.gets.chomp
   #if yes, select a month
   if option.upcase == "Y"
     return [input_cohort]
@@ -229,29 +242,34 @@ def process(selection)
       load_students
     #if selected 9 exits the program
     when "9"
+      puts "Bye"
       exit
     else
       puts "I don't know what you mean, try again"
   end
 end
 
-def load_students
-  file = File.open("students.csv", "r")
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  if filename.nil? # load the default file if not given
+    load_students
+  elsif File.exists?(filename) # if it exists
+    load_students(filename)
+     puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
   end
-  file.close
-  puts "You've loaded the file, awesome man!"
 end
 
 def interactive_menu
-
+try_load_students
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
-
 end
+
 
 interactive_menu
