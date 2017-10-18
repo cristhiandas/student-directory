@@ -1,3 +1,5 @@
+require 'csv'
+
 @students = []
 @choosen_cohort = [:January,
   :February,
@@ -54,12 +56,12 @@ def add_student(name, cohort)
 end
 
 def load_students(filename)
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    add_student(name, cohort.to_sym)
+
+  CSV.foreach(filename) do |line|
+      name = line[0]
+      cohort = line[1]
+      add_student(name, cohort.to_sym)
   end
-  file.close
   puts "You've loaded the file, awesome man!"
 end
 
@@ -208,16 +210,13 @@ def show_students_by_letters
 end
 #This method save the students names and cohorts in a file
 def save_students
-  # open the file for writing
-  file = File.open(ask_for_file, "w")
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+
+  CSV.open(ask_for_file,"w") do |csv_file|
+    @students.each do |student|
+      csv_file << student
+    end
   end
-  #closing the file
-  file.close
+
   puts "Yor students have been saved (You are a hero)"
 end
 
@@ -228,6 +227,7 @@ def print_menu
   puts "3. Search for specific students"
   puts "4. Save the students in a file"
   puts "5. loads the students in the file"
+  puts "6. Print the program sourcecode"
   puts "9. Exit"
 end
 
@@ -249,6 +249,8 @@ def process(selection)
     #if 5 load the students that are already in the file
     when "5"
       load_students
+    when "6"
+      quince
     #if selected 9 exits the program
     when "9"
       puts "Bye"
@@ -272,6 +274,12 @@ def try_load_students
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
   end
+end
+
+#This is actually not a quince or that's what I think because it reads the source code,
+#but I liked the name
+def quince
+  $><<open($0).read
 end
 
 def interactive_menu
