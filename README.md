@@ -1,6 +1,6 @@
 # student-directory #
 
-Since the begin of time we where looking for an answer, answer on how to manage the Student Directory of
+Since the begin of time we were looking for an answer, answer on how to manage the Student Directory of
 the Villian Academy. But NOW, we have this new script that will allow YOU, yeah YOU user to do it in the
 most simple and efficient way.
 
@@ -20,14 +20,14 @@ note: Actually you can use any name you want for the file, just remember to add 
 
 ## How to start it:
 
-Run the following in the command line:
+Run the following on the command line:
 
 ``` shell
 ruby directory.rb
 ```
 
 ## Once it is started
-it will ask for a file, this would be "students.csv" or the name you've choosen.
+it will ask for a file, this would be "students.csv" or the name you've chosen.
 
 then, you will see 9 options:
 
@@ -36,7 +36,7 @@ then, you will see 9 options:
 - "3. Search for specific students"
 - "4. Save the students in a file"
 - "5. loads the students in the file"
-- "6. Print the program sourcecode"
+- "6. Print the program source code"
 - "9. Exit"
 
-they bassically do what they say.
+they basically do what they say.
